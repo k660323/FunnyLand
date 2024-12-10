@@ -108,7 +108,7 @@
           + Json파일로 데이터를 저장 및 불러옵니다.
           + UI_Preferences클래스에서 UI로 환경 설정하면 값이 반영됩니다.
          
-    + blob/main/Scripts/Managers/Managers.cs
+    + https://github.com/k660323/FunnyLand/blob/main/Scripts/Managers/Managers.cs
      
   + 씬
     + 전체적인 씬은 로그인, 로비, 게임 선택, 게임 씬으로 나눠서 구현
