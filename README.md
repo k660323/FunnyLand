@@ -1,0 +1,340 @@
+# [Unity 3D] FunnyLand
+## 1. 소개
+
+<div align="center">
+  <img src="https://github.com/Kakanu/FunnyLand/blob/main/%EC%B5%9C%ED%9B%84%EC%9D%98%20%EC%83%9D%EC%A1%B4%EC%9E%90.JPG" width="49%" height="230"/>
+  <img src="https://github.com/Kakanu/FunnyLand/blob/main/%EC%A2%80%EB%B9%84%20%EC%84%9C%EB%B0%94%EC%9D%B4%EB%B2%8C.JPG" width="49%" height="230"/>
+  <img src="https://github.com/Kakanu/FunnyLand/blob/main/%EC%8A%88%ED%8C%85%EC%8A%88%ED%84%B0.JPG" width="49%" height="230"/>
+  <img src="https://github.com/Kakanu/FunnyLand/blob/main/%EB%A6%BF%EC%A7%80%20%EB%B8%94%EB%A1%9D%EC%BB%A4.JPG" width="49%" height="230"/>
+  
+  < 게임 플레이 사진 >
+</div>
+
++ FunnyLand란?
+  + 멀티플레이 게임으로 매판 마다 미니게임을 골라 플레이하는 게임입니다.
+ 
++ 목표
+  + 최종 라운드가 끝날때 까지 다른 플레이어보다 많은 점수를 얻어라
+
++ 게임 흐름
+  + 게임 시작시 방장이 게임 선택 창을 통해 원하는 미니게임을 골라 플레이한다.
+  + 해당 미니게임을 플레이하고 개인전, 팀전 유무와 순위에 따라 점수를 부여한다.
+  + 다음 미니게임을 방장이 선택한다.
+  + 모든 라운드가 진행 될때 까지 반복 한다.
+  + 모든 라운드 진행 후 결과 출력 후 종료
+  
++ 구현된 미니 게임
+  + 릿지 블록커
+    + 캐릭터의 색깔에 맞게 버튼을 누르는 반응형 게임
+    + 상단의 게이지가 다 떨어지지않게 계속해서 캐릭터의 색깔에 맞게 버튼을 클릭
+    + 최후의 생존자가 될때까지 버티자
+  
+  + 최후의 생존자
+    + AI 속에 숨어든 플레이어를 찾아 잡아내자
+    + 매 라운드마다 좁아지는 자기장안에서 상대 플레이어를 찾아 제거하자
+    + AI를 처치시 자신의 체력이 깍인다.
+  
+  + 슈팅 슈터
+    + 캐주얼 슈팅 게임
+    + 제한 시간안에 플레이어를 제거해라
+    + 많은 플레이어를 잡은 쪽이 승리한다.
+  
+  + 좀비 서바이벌
+    + 제한 시간안에 계속 몰려오는 좀비들을 피해 생존하라
+     
+          
+
+<br>
+
+## 2. 프로젝트 정보
+
++ 사용 엔진 : UNITY
+  
++ 엔진 버전 : 2020.3.19f1 LTS
+
++ 사용 언어 : C#
+  
++ 작업 인원 : 1명
+  
++ 작업 영역 : 콘텐츠 제작, 디자인, 기획
+  
++ 장르      : 미니 게임
+  
++ 소개      : Photon 에셋을 활용하여 만든 멀티플레이 게임으로 매판 마다 미니게임을 골라 플레이하는 게임입니다.
+  
++ 플랫폼    : PC
+  
++ 개발기간  : 2022.07.15 ~ 2023.04.16
+  
++ 형상관리  : GitHub Desktop
+
+<br>
+
+## 3. 사용 기술
+| 기술 | 설명 |
+|:---:|:---|
+| 디자인 패턴 | ● **싱글톤** 패턴 Managers클래스에 적용하여 여러 객체 관리 <br> ● **FSM** 패턴을 사용하여 플레이어 및 AI 기능 구현 <br> ● **옵저버** 패턴을 사용하여 플레이어 상태, 스킬 상태를 변경시에만 UI 업데이트|
+| 미니게임 흐름 | 게임 진행을 FSM으로 관리하여 명확하게 기능 구현 및 수행 |\
+| GameData | Json형태의 파일로 관리 |
+| Save | 게임 데이터를 BackEnd에 Json형태로 저장 |
+| Load | 게임 데이터를 BackEnd에서 Json형태로 불러온다.|
+| Object Pooling | 자주 사용되는 객체는 Pool 관리하여 재사용 |
+| UI 자동화 | 유니티 UI 상에서 컴포넌트로 Drag&Drop되는 일을 줄이기 위한 편의성 |
+
+<br>
+
+## 4. 구현 기능
++ 구조 설계
+  + 코어, 컨텐츠 기능
+    + 대부분 유니티 프로젝트에서 사용되고 자주 사용하는 기능들을 구현하여 싱글톤 클래스인 Managers에서 접근할 수 있도록 구현
+      + 코어
+        + DataManager - 데이터 관리 매니저
+        + InputManager - 사용자 입력 관리 매니저
+        + ParticalManager - 파티클 생성 유틸
+        + PhotonNetworkManager - 포톤 네트워크 객체 관리 매니저
+        + PoolManager - 오브젝트 풀링 매니저
+        + ResourceManager - 리소스 매니저
+        + SceneManager - 씬 매니저
+        + SoundManager - 사운드 매니저
+        + UIManager - UI 매니저
+      + 컨텐츠
+        + GameManager
+          + 네트워크에 존재하는 게임 오브젝트를 서치, 씬 정보, 소유 플레이어, 관전 등 각종 유틸 클래스
+          + 네트워크 오브젝트들은 고유의 ViewId를 가지고 있어 이를 key로 이용해 자료구조 Dictionary<key, GameObject>형태로 저장
+          + BasehController를 상속받는 모든 클래스가 AWake()를 실행 시 SetPhotonObject함수 실행하여 등록하도록 설계
+          + Photon은 룸오브젝트는 ViewID 0 ~ 999, 플레이어 오브젝트는 ViewID 1000번 이후로 플레이어당 1000개의 오브젝트들을 각각 할당 할 수 있습니다.
+        + GameOptionManager
+          + 게임 해상도, 그래픽 품질, 사운드, 마우스 감도 값들을 관리하는 매니저
+          + Json파일로 데이터를 저장 및 불러옵니다.
+          + UI_Preferences클래스에서 UI로 환경 설정하면 값이 반영됩니다.
+         
+    + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Managers/Managers.cs
+      
+  + 씬
+    + 전체적인 씬은 로그인, 로비, 게임 선택, 게임 씬으로 나눠서 구현
+   
+    + 로그인 씬
+      + BaseScene 상속
+        + LoginScene
+
+      + UI_Scene 상속
+        + UI_LoingScene
+          + 각각 구현한 기능 관리 및 해당 기능들 끼리 쉽게 참조할 수 있도록 하는 클래스
+            + 회원 가입
+              + UI_Register
+                + 회원가입 버튼 클릭시 CreateAccount()함수를 통해 사용자가 입력한 e-mail, ID, PW 기반으로 BackEnd에 사용자를 등록한다.
+                  + 과정 
+                    + FindCutstomId를 호출하여 결과를 bool형 반환 합니다.
+                    + 사용가능한 이메일이면 CustomSignUp을 호출해 iD,PW를 설정합니다.
+                    + 계정 생성이 완료되면 국가등록, 이메일 등록, 성공 알림 함수를 호출합니다.
+                + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/UI/Scene/UI_Register.cs
+            + 로그인
+              + UI_Login
+                + 로그인 버튼 클릭시 LoginBtnClick() 함수를 통해 BackEnd에 해당 정보 전송 후 결과 반환
+                + 올바른 정보면 해당 플레이어의 Json 데이터를 가져와 초기화
+                + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/UI/Scene/UI_Login.cs
+            + ID, PW 찾기
+              + UI_FindAccount
+                + FindID - 계정 등록시 작성한 email로 ID를 메일로 발송
+                + ResetPW - 계정 등록시 작성한 email, ID를 확인후 메일로 랜덤한 PW 발송
+                + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/UI/Popup/UI_FindAccount.cs
+               
+    + 로비 씬
+      + BaseScene 상속
+        + LobbyScene
+          + 포톤 네트워크 로비에 입장 초기화 기능 수행
+          + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Scenes/LobbyScene.cs
+            
+      + UI_Scene 상속
+        + UI_LobbyScene
+          + OnRoomListUpdate함수가 일정 주기 마다 콜백함수로 생성된 방 리스트 불러온다.
+          + 해당 씬에선 방생성, 방입장, 내정보, 상점, 옵션 설정이 가능합니다.
+          + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/UI/Scene/SceneUI/UI_LobbyScene.cs
+            
+          + UI_FindRoom (방 찾기 및 입장)
+            + OnRoomListUpdate 함수에 들어온 방 정보들을 UI에 띄어주는 클래스
+            + 콜백으로 호출된 OnRoomListUpdate가 해당 클래스가 활성화 되어 있다면 SetRoomInfo() 호출
+            + 입장하려고하는 방의 인덱스로 리스트 배열의 방 정보를 가져와 해당 정보가 존재하고 만약 패스워드가 존재시 패스 워드 까지 입력받습니다.
+            + 방 최대 인원에 초과하는지 확인하고 조건을 충족시 PhotonNetwork.JoinRoom()을 호출하여 방에 입장합니다.
+            + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/UI/Popup/UI_FindRoom.cs
+            
+          + UI_RoomPW (방 입장 비밀번호)
+            + UI_FindRoom에서 시각화된 정보들중 만약 비밀번호를 설정 해놓으면 뜨는 팝업 UI
+            + 설정된 암호를 기입해야 방에 입장할 수 있다.
+            + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/UI/Popup/UI_RoomPW.cs
+              
+          + UI_CreateRoom (방 생성)
+            + 방 생성 버튼을 통해 해당 PopUp클래스인 UI_CreateRoom 생성
+            + 방제목, 비밀번호, 인원수, 라운드, 팀전, 팀킬, 공개방 여부를 설정 하여 방을 생성할 수 있습니다.
+            + 설정한 정보들은 CreateRoom를 호출할 시 매개변수로 넣어주고, 외부에 보일 방 정보도 아래와 같이 세팅해서 생성합니다.
+              + Managers.Photon.InitRoomProperties 함수는 사용자 지정 함수이며 RoomOption 객체를 생성해 로비에 보일 값을 설정하여 RoomOption을 반환하여 CreateRoom매개변수에 들어갑니다.
+              + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Managers/Core/PhotonNetworkManager.cs 
+            + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/UI/Popup/UI_CreateRoom.cs
+       
+          + UI_Room (방)
+            + 방 설정, 유저 슬롯 설정, 채팅, 게임 준비 시작할 수 있는 UI입니다.
+            + RequestUIPos(Player requestPlayer)
+              + 마스터 클라이언트에게 해당 플레이어 UI위치를 요청하는 함수
+            + SetUIPos(bool isInit, string parent)
+              + 요청을 처리한 마스터 클라이언트가 UI위치를 대상 클라이언트에게 알리는 함수 첫 초기화면 대상 클라이언트 소유의 UI_Player 생성, 아닐시 대상 그룹(레드팀, 블루팀)에 추가
+            + EditRoomOption()
+              + 방설정창 호출
+            + Ready()
+              + 해당 플레이어 준비, UI_Player의 bool형인 ready변수가 수정된다. 이 변수는 OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)를 통해 콜백으로 모든 클라이언트에게 동기화 된다.
+            + GameStart()
+              + 마스터 클라이언트가 Ready시 호출, 팀전일 경우 선행 조건으로 팀 인원수 체크, Ready여부 체크하여 모든 플레이어가 Ready시 GameSceneLoad()함수를 RPC하여 모두 에게 알려 씬을 로드한다.
+            + 방플레이어 이동
+              + 마스터 클라이언트가 처리
+              + 마우스 클릭시 oNpOINTERdOWN()호출 대상 ui를 클릭하면 ui가 다른 ui에 가리지 않도록 SetAsLastSibling()호출
+              + 마우스 클릭 중 OnPointerDrag() 호출 해당 UI가 마우스 포인터를 따라 움직인다.
+              + 마우스 클릭을 땠을 때 OnPointerUp()호출 PointerUppOS()를 통해 Raycast를 한 후 리스트 중 UI_TeamRange를 가진 컴포넌트랑 충돌 했을 시 해당 UI를 MoveTeam()함수를 통해 이동 시킨다. 
+            + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/UI/Scene/SceneUI/UI_Room.cs
+              
+          + UI_Player
+            + 방에 입장한 플레이어 UI 입니다.
+            + 해당 방에서 마스터 클라이언트와 클라이언트와 통신할 수 있는 매개체 입니다.
+            + 플레이어 정보, UI 이동, 강퇴가 가능합니다.
+            + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/UI/Scene/UI_Player.cs
+            + 
+
+    + 로딩 씬
+      + 모든 플레이어가 게임 씬을 로딩후 동시에 진입하기 위한 씬
+      + Init() ->  Managers.Scene.AsyncLoadScene(Define.Scene.Game) 해당 씬 비동기 로드
+      + StartCoroutine(CorLoadingProgress); 비동기 로드 정보를 관찰하여 UI_LoadingScene에 알려 UI 업데이트하기 위해 코루틴 실행
+      + 씬 로딩이 완료되면 PhotonNetwork.LocalPlayer.SetCustomProperties로 해당 상태 갱신
+      + 만약 마스터 클라이언트면 CheckReadyPlayer() 코루틴을 실행해 모든 유저 씬 로드 체크
+      + 모든 유저가 씬 로드가 완료되면 SceneActivation()를 RPC하여 모든 클라이언트에게 알려 게임씬에 진입한다.
+    + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Scenes/LoadingScene.cs
+
+    + 게임 씬
+      + 게임씬에는 진행할 게임 컨텐츠를 지정하는 씬 입니다.
+      + 여러 컨텐츠 씬에서 사용하는 기능들은 게임 씬에서 구현합니다.
+      + 방장이 60초 동안 원하는 미니 게임을 선택해 플레이 하면 됩니다.
+      + 최대 라운드는 게임 시작전 설정한 라운드를 따라가며 모든 라운드가 끝나면 개인전, 팀전에 따라 점수가 높은 유저 또는 팀이 승리합니다.
+      + 컨텐츠 흐름은 FSM형식으로 구현된 StateController()함수를 통해 게임 상태를 제어 합니다.
+        + UI_Chocie(맵선택) -> UI_LoadMap(맵 로드) -> ContentsScene을 상속받은 클래스가 게임 시작 및 게임 종료 -> UI_RoundResult(점수 출력) -> 라운드 체크 -> 만족시 UI_GameOver, 아닐시 처음부터 반복
+          + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/UI/Popup/UI_ChoiceMap.cs
+          + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/UI/Popup/UI_LoadMap.cs
+          + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Scenes/Contents/ContentsScene.cs
+          + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/UI/Popup/UI_RoundResult.cs
+          + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/UI/Popup/UI_GameOver.cs
+    + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Scenes/GameScene.cs
+          
+    + 컨텐츠 씬
+      + ContentsScene
+        + 해당 컨텐츠 씬들은 위의 클래스를 상속받습니다.
+        + 이 씬은 게임 시작, 종료 조건 설정, 종료 조건 보상, 게임 종료 등 다양한 게임 로직 흐름 제어를 수행합니다.
+        + GameInit()는 게임 초기화및 시작을 담당하며 상속받은 클래스에서 이 함수를 override하여 각 컨텐츠에 맞게 흐름을 정의합니다.
+        + GameEnd_M 함수는 게임이 종료 체크 및 종료를 수행합니다.
+          + 해당 플레이어의 Properties를 수정하여 Photon 함수인 OnPlayerPropertiesUpdate가 호출되었을때 호출된다.
+          + 수정된 Properties가 조건에 맞는 key를 포함하면 마스터 클라이언트가 endEvent 델리게이트가 구독한 함수들을 실행하면 된다.
+          + OnPlayerPropertiesUpdate는 가상함수이며 게임 조건에 맞게 수정하면 된다.
+        + LastPeopleScene 게임 시작 흐름 예시
+          + Start() -> GameInit() ->  RequestPos_ToM()를 마스터 클라이언트가 호출하도록 RPC -> 마스터 클라이언트가 해당 RPC를 보낸 플레이어의 랜덤으로 자리 지정 -> CheckRequestCount를 호출해 모든 플레이어가 요청 했는지 체크 -> 만족시 봇과 플레이어 생성 -> 게임 시작
+      + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Scenes/Contents/ContentsScene.cs
+        
+      + LastPeopleScene
+        + AI사이에 들어간 플레이어들을 찾아 제거하면 되는 심플한 게임입니다.
+          + FSM
+            + 플레이어와 AI 조작 로직은 FSM으로 구성되어 있습니다.
+          + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Controllers/LastPeople/LPPlayerController.cs
+          + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Controllers/LastPeople/LPPlayerController.cs
+
+          + Attack
+            + FSM 상태가 Dead가 아니면 Attack상태로 전환이 가능합니다.
+            + 피격 판정은 마스터 클라이언트에서 처리합니다.
+            + BoxCastAll을 통해 피격된 모든 게임 오브젝트를 순회합니다.
+            + 현재 공격 카운트가 최대 카운트랑 같으면 더 이상 반복문을 순회하지 않습니다.
+          + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Contents/Weapon/MeleeWeapon.cs
+            + 팀, 추가 효과 확인분 확인하는 OnAttack에서 Stat을 상속받은 클래스에서 소유자가 피격 처리를 하는 OnAttacked함수를 호출 합니다.
+          + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Contents/Stat.cs
+   
+          + 자기장
+            + 자기장은 총 5단계의 페이지가 존재하며 최종 페이지에 도달할 때 까지 계속해서 작아 집니다.
+            + 게임 시작시 LastPeopleScene 클래스가 게임 시작인 PageStart함수를 호출합니다.
+            + NextDestination()함수에서 다음 위치와 크기를 설정합니다.
+              + 위치는 현재 자기장의 반지름 - 다음 자기장의 반지름의 차이를 구해 그 차이만큼 랜덤을 돌려 현재위치에 더하여 다음 위치를 구합니다.
+              + 자기장 크기는 PageSize 배열에 있는 크기를 따라 갑니다.
+            + PageCoroutine()을 통해 목적지와 크기에 대해 Perp하게 이동 됩니다.
+            + 이동이 끝나면 타이머를 작동시키며 타이머가 끝나면 위의 루틴을 반복합니다.
+          + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Contents/MagneticField.cs
+         
+          + 레드존
+            + 게임 시작시 매 1분 마다 랜덤한 지역에 포격이 가해집니다.
+            + 해당 포격을 맞으면 일격에 쓰러집니다.
+            + 레드존 생성기와 레드존으로 이루어져 있습니다.
+          + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Contents/RedZoneCreator.cs
+          + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Contents/RedZone.cs
+
+      + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Scenes/Contents/LastPeopleScene.cs
+             
+      + LedgeBlocker
+        + 상단의 게이지가 다 닳을 때 가지 해당 캐릭터 색상이 맞는 버튼을 눌러 점수를 많이 획득하는 미니 게임
+        + 모든 플레이어가 탈락하면 게임 종료
+      + ShootingShooter
+        + 제한 시간안에 최대한 많은 플레이어를 섬멸
+        + 이동, 점프 공격 단순한 조작
+        + 사망시 10초 뒤 리스폰
+          + FSM
+            + FSM으로 플레이어 이동 로직 구현
+            + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Controllers/ShootingShooter/SSPlayerController.cs
+          + 네트워크 오브젝트 ObjectPooling
+            + 모든 객체에 대한 처리가 어려워 자기 자신의 소유의 오브젝트들만 오브젝트 풀리을 부분적 적용
+            + 조건을 만족하여 RegisterInsertQueue() 호출시 자신 객체면 오브젝트 풀링 아니면 비활성화
+            + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Contents/Projectile/Projectile.cs
+
+      + ZombieSurviver
+        + 좀비를 피해 최대한 생존하는 미니게임
+        + 캐릭터의 좌클릭으로 좀비나 플레이어를 밀어낼 수 있습니다.
+        + 최후의 플레이어만 생존하거나 제한 시간안에 버티면 점수를 획득합니다.
+          + FSM
+            + 플레이어와 AI조작 로직은 FSM으로 구현
+          + 무기 효과
+            + 플레이어의 무기는 공격 시 해당 객체를 뒤로 날려버리는 특수 효과가 있습니다.
+            + 플레이어는 CharacterController, AI는 NavMesh Agent를 사용하기에 유니티에서 제공하는 Rigidbody 컴포넌트를 사용할 수 없어 이를 둘다 사용할 수 있게 커스텀
+              + Weapon
+                + PhysicsEffect는 ScriptableObject로 정의되어 있고 특수 효과에 대한 정의가 되어있는 클래스 입니다. ex) 밀치기
+                  + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Contents/Weapon/AdditionEffect/PhysicsEffect.c
+                + Weapon의 OnAttack()에서 판정시 OnAddtionPhysicse를 호출하여 해당 효과가 있으면 적용
+                  + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Contents/Weapon/Weapon.cs 
+                + Controller3D에서 선언되어 있는 SetPhysics에서 매개변수로 온 값을 가지고 효과를 적용시킵니다.
+                  + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Controllers/BaseController/3D/Controller3D.cs 
+
+            + 
+  + 기타
+     + UI_Chat
+       + 룸 오브젝트
+       + InputField에 보낼 텍스트를 입력 후 전송시, 포멧으로 플레이어 닉네임 삽입 후 포톤 서버에 전송하여 서버에서 모든 클라이언트에게 데이터 전송한다.
+       + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/UI/Scene/UI_Chat.cs
+     
+     + EnviromentController
+       + 3D 게임의 경험을 다양하게 하기위한 일종의 환경광 프리셋 클래스
+       + 환경광 동기화
+         + 마스터 클라이언트가 Start함수를 실행시 enviroments 배열 중에서 랜덤으로 선택
+         + ApplyWeather함수를 RPC해서 모든 클라이언트의 환경과을 동일하게 맞춰줍니다.
+     + https://github.com/Kakanu/FunnyLand/blob/main/Assets/Scripts/Contents/EnviromentController.cs
+   
+    
+<br>
+
+## 5. 구현에 어려웠던 점과 해결과정
++ 3인칭 TPS 게임을 첫 구현이라 플레이어 이동, 3인칭 카메라 구현에 많이 어려웠습니다.
+  + 구글링, 유튜브 등 외부 미디어를 코드를 참고하여 해결했습니다.
+  
++ URP(Universal Rendering PipeLine)을 써서 그래픽 옵션 설정 구현이 까다로웠고, 외부 라이브러리의 랜더링 기능이 추가되지 않아서 발생한 버그를 수정 하는게 많이 어려웠습니다. (바다에 들어갔을때 카메라가 바다에 들어간 부분만 추가 렌더링 하는 기능)
+  + 하지만 구글링을 통해서 해당 기능을 랜더링 파이프라인에 추가해야된다것을 알고 바로 적용하여 해결하였습니다.
+    
++ 게임 컨텐츠 구조를 설계하는데 많이 어려웠습니다. (게임 대기 씬 ↔ 게임 씬)
+  + 시행 착오 끝에 이 두가지 씬의 역할을 명확히 구분하여 구현하기로 했습니다. 대기 씬은 (대기 + 게임 씬에서 공통적으로 사용하는 기능을 제공하는 씬), 게임 씬은(게임씬에서만 사용하는 기능)으로 구분하여 구현하였습니다.
+    
++ 다양한 미니게임을 만들기위한 2D, 3D 클래스를 생성하고 재사용하도록 코드를 작성하는게 어려웠습니다.
+  + 여러 게임에서 사용할 클래스를 재사용하기위해 상속 관계를 만들고 또 만들다 보니 코드 분석하기 어려웠고 코드 작성하기가 어려웠습니다.
+ 
+## 6. 느낌점
++ Saas 로 만드는 멀티플레이어 게임의 한계를 느꼈다. 게임 판정을 클라이언트(마스터)가 관리하니까 코드 설계가 너무 어렵다.
++ 예외적인 마스터가 방을 떠나거나 마스터가 바뀔때 마스터가 가지고 있는 데이터 동기화나 최적화를 위해 마스터만 실행하고 가지고있는 데이터를 다음 마스터가 가지게 하거나, 해당 상태에서 마스터가 나가면 될 에외처리 등등 너무 많은 상황을 처리해야해서 머리가 아프다.
++ 그래서 데디케이티드 서버나 소켓 프로그래밍을 배워 제작을 하는게 명확하게 프로그래밍이 가능할거라 생각한다. 왜냐하면 클라 <-> 서버의 관계가 명확하기 때문이다.
+
+
+## 7. 플레이 영상
++ https://youtu.be/By2hg5X7PqI
