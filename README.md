@@ -363,7 +363,7 @@
 [SSPlayerController.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Controllers/ShootingShooter/SSPlayerController.cs, "플레이어 컨트롤러")
 
 **네트워크 오브젝트 ObjectPooling**
-  + 모든 객체에 대한 처리가 어려워 자기 자신의 소유의 오브젝트들만 오브젝트 풀리을 부분적 적용
+  + 모든 객체에 대한 처리가 어려워 자기 자신의 소유의 오브젝트들만 오브젝트 풀링을 부분적 적용
   + 조건을 만족하여 RegisterInsertQueue() 호출시 자신 객체면 오브젝트 풀링 아니면 비활성화
     
 [Projectile.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Contents/Projectile/Projectile.cs, "투사체")
