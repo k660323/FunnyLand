@@ -248,6 +248,7 @@
   + 씬 로딩이 완료되면 PhotonNetwork.LocalPlayer.SetCustomProperties로 해당 상태 갱신
   + 만약 마스터 클라이언트면 CheckReadyPlayer() 코루틴을 실행해 모든 유저 씬 로드 체크
   + 모든 유저가 씬 로드가 완료되면 SceneActivation()를 RPC하여 모든 클라이언트에게 알려 게임씬에 진입한다.
+    
 [LoadingScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/LoadingScene.cs, "로딩 씬")
 
 
@@ -263,6 +264,7 @@
   + 방장이 60초 동안 원하는 미니 게임을 선택해 플레이 하면 됩니다.
   + 최대 라운드는 게임 시작전 설정한 라운드를 따라가며 모든 라운드가 끝나면 개인전, 팀전에 따라 점수가 높은 유저 또는 팀이 승리합니다.
   + 컨텐츠 흐름은 FSM형식으로 구현된 StateController()함수를 통해 게임 상태를 제어 합니다.
+    
 [GameScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/GameScene.cs, "게임 씬")
 
 **게임 흐름**
