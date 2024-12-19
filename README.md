@@ -84,34 +84,118 @@
 <br>
 
 ## 4. 구현 기능
-
-### **구조 설계**
++ 구조 설계
   + 코어, 컨텐츠 기능
-  + 대부분 유니티 프로젝트에서 사용되고 자주 사용하는 기능들을 구현하여 싱글톤 클래스인 Managers에서 접근할 수 있도록 구현
- 
-### **코어 매니저저**
-  
-+ DataManager - 데이터 관리 매니저
-+ InputManager - 사용자 입력 관리 매니저
-+ ParticalManager - 파티클 생성 유틸
-+ PhotonNetworkManager - 포톤 네트워크 객체 관리 매니저
-+ PoolManager - 오브젝트 풀링 매니저
-+ ResourceManager - 리소스 매니저
-+ SceneManager - 씬 매니저
-+ SoundManager - 사운드 매니저
-+ UIManager - UI 매니저
+    + 대부분 유니티 프로젝트에서 사용되고 자주 사용하는 기능들을 구현하여 싱글톤 클래스인 Managers에서 접근할 수 있도록 구현
+      + 코어
+        + DataManager - 데이터 관리 매니저
+        + InputManager - 사용자 입력 관리 매니저
+        + ParticalManager - 파티클 생성 유틸
+        + PhotonNetworkManager - 포톤 네트워크 객체 관리 매니저
+        + PoolManager - 오브젝트 풀링 매니저
+        + ResourceManager - 리소스 매니저
+        + SceneManager - 씬 매니저
+        + SoundManager - 사운드 매니저
+        + UIManager - UI 매니저
+      + 컨텐츠
+        + GameManager
+          + 네트워크에 존재하는 게임 오브젝트를 서치, 씬 정보, 소유 플레이어, 관전 등 각종 유틸 클래스
+          + 네트워크 오브젝트들은 고유의 ViewId를 가지고 있어 이를 key로 이용해 자료구조 Dictionary<key, GameObject>형태로 저장
+          + BasehController를 상속받는 모든 클래스가 AWake()를 실행 시 SetPhotonObject함수 실행하여 등록하도록 설계
+          + Photon은 룸오브젝트는 ViewID 0 ~ 999, 플레이어 오브젝트는 ViewID 1000번 이후로 플레이어당 1000개의 오브젝트들을 각각 할당 할 수 있습니다.
+        + GameOptionManager
+          + 게임 해상도, 그래픽 품질, 사운드, 마우스 감도 값들을 관리하는 매니저
+          + Json파일로 데이터를 저장 및 불러옵니다.
+          + UI_Preferences클래스에서 UI로 환경 설정하면 값이 반영됩니다.
+         
+    + https://github.com/k660323/FunnyLand/blob/main/Scripts/Managers/Managers.cs
+     
+  + 씬
+    + 전체적인 씬은 로그인, 로비, 게임 선택, 게임 씬으로 나눠서 구현
+   
+    + 로그인 씬
+      + BaseScene 상속
+        + LoginScene
 
-### **컨텐츠 매니저**
-  
-+ GameManager
-  + 네트워크에 존재하는 게임 오브젝트를 서치, 씬 정보, 소유 플레이어, 관전 등 각종 유틸 클래스
-  + 네트워크 오브젝트들은 고유의 ViewId를 가지고 있어 이를 key로 이용해 자료구조 Dictionary<key, GameObject>형태로 저장
-  + BasehController를 상속받는 모든 클래스가 AWake()를 실행 시 SetPhotonObject함수 실행하여 등록하도록 설계
-  + P어")
-
-
----
-
+      + UI_Scene 상속
+        + UI_LoingScene
+          + 각각 구현한 기능 관리 및 해당 기능들 끼리 쉽게 참조할 수 있도록 하는 클래스
+            + 회원 가입
+              + UI_Register
+                + 회원가입 버튼 클릭시 CreateAccount()함수를 통해 사용자가 입력한 e-mail, ID, PW 기반으로 BackEnd에 사용자를 등록한다.
+                  + 과정 
+                    + FindCutstomId를 호출하여 결과를 bool형 반환 합니다.
+                    + 사용가능한 이메일이면 CustomSignUp을 호출해 iD,PW를 설정합니다.
+                    + 계정 생성이 완료되면 국가등록, 이메일 등록, 성공 알림 함수를 호출합니다.
+                + https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/UI_Register.cs
+            + 로그인
+              + UI_Login
+                + 로그인 버튼 클릭시 LoginBtnClick() 함수를 통해 BackEnd에 해당 정보 전송 후 결과 반환
+                + 올바른 정보면 해당 플레이어의 Json 데이터를 가져와 초기화
+                + https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/UI_Login.cs
+            + ID, PW 찾기
+              + UI_FindAccount
+                + FindID - 계정 등록시 작성한 email로 ID를 메일로 발송
+                + ResetPW - 계정 등록시 작성한 email, ID를 확인후 메일로 랜덤한 PW 발송
+                + https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_FindAccount.cs
+               
+    + 로비 씬
+      + BaseScene 상속
+        + LobbyScene
+          + 포톤 네트워크 로비에 입장 초기화 기능 수행
+          + https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/LobbyScene.cs
+            
+      + UI_Scene 상속
+        + UI_LobbyScene
+          + OnRoomListUpdate함수가 일정 주기 마다 콜백함수로 생성된 방 리스트 불러온다.
+          + 해당 씬에선 방생성, 방입장, 내정보, 상점, 옵션 설정이 가능합니다.
+          + https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/SceneUI/UI_LobbyScene.cs
+            
+          + UI_FindRoom (방 찾기 및 입장)
+            + OnRoomListUpdate 함수에 들어온 방 정보들을 UI에 띄어주는 클래스
+            + 콜백으로 호출된 OnRoomListUpdate가 해당 클래스가 활성화 되어 있다면 SetRoomInfo() 호출
+            + 입장하려고하는 방의 인덱스로 리스트 배열의 방 정보를 가져와 해당 정보가 존재하고 만약 패스워드가 존재시 패스 워드 까지 입력받습니다.
+            + 방 최대 인원에 초과하는지 확인하고 조건을 충족시 PhotonNetwork.JoinRoom()을 호출하여 방에 입장합니다.
+            + https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_FindRoom.cs
+            
+          + UI_RoomPW (방 입장 비밀번호)
+            + UI_FindRoom에서 시각화된 정보들중 만약 비밀번호를 설정 해놓으면 뜨는 팝업 UI
+            + 설정된 암호를 기입해야 방에 입장할 수 있다.
+            + https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_RoomPW.cs
+              
+          + UI_CreateRoom (방 생성)
+            + 방 생성 버튼을 통해 해당 PopUp클래스인 UI_CreateRoom 생성
+            + 방제목, 비밀번호, 인원수, 라운드, 팀전, 팀킬, 공개방 여부를 설정 하여 방을 생성할 수 있습니다.
+            + 설정한 정보들은 CreateRoom를 호출할 시 매개변수로 넣어주고, 외부에 보일 방 정보도 아래와 같이 세팅해서 생성합니다.
+              + Managers.Photon.InitRoomProperties 함수는 사용자 지정 함수이며 RoomOption 객체를 생성해 로비에 보일 값을 설정하여 RoomOption을 반환하여 CreateRoom매개변수에 들어갑니다.
+              + https://github.com/k660323/FunnyLand/blob/main/Scripts/Managers/Core/PhotonNetworkManager.cs 
+            + https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_CreateRoom.cs
+       
+          + UI_Room (방)
+            + 방 설정, 유저 슬롯 설정, 채팅, 게임 준비 시작할 수 있는 UI입니다.
+            + RequestUIPos(Player requestPlayer)
+              + 마스터 클라이언트에게 해당 플레이어 UI위치를 요청하는 함수
+            + SetUIPos(bool isInit, string parent)
+              + 요청을 처리한 마스터 클라이언트가 UI위치를 대상 클라이언트에게 알리는 함수 첫 초기화면 대상 클라이언트 소유의 UI_Player 생성, 아닐시 대상 그룹(레드팀, 블루팀)에 추가
+            + EditRoomOption()
+              + 방설정창 호출
+            + Ready()
+              + 해당 플레이어 준비, UI_Player의 bool형인 ready변수가 수정된다. 이 변수는 OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)를 통해 콜백으로 모든 클라이언트에게 동기화 된다.
+            + GameStart()
+              + 마스터 클라이언트가 Ready시 호출, 팀전일 경우 선행 조건으로 팀 인원수 체크, Ready여부 체크하여 모든 플레이어가 Ready시 GameSceneLoad()함수를 RPC하여 모두 에게 알려 씬을 로드한다.
+            + 방플레이어 이동
+              + 마스터 클라이언트가 처리
+              + 마우스 클릭시 oNpOINTERdOWN()호출 대상 ui를 클릭하면 ui가 다른 ui에 가리지 않도록 SetAsLastSibling()호출
+              + 마우스 클릭 중 OnPointerDrag() 호출 해당 UI가 마우스 포인터를 따라 움직인다.
+              + 마우스 클릭을 땠을 때 OnPointerUp()호출 PointerUppOS()를 통해 Raycast를 한 후 리스트 중 UI_TeamRange를 가진 컴포넌트랑 충돌 했을 시 해당 UI를 MoveTeam()함수를 통해 이동 시킨다. 
+            + https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/SceneUI/UI_Room.cs
+              
+          + UI_Player
+            + 방에 입장한 플레이어 UI 입니다.
+            + 해당 방에서 마스터 클라이언트와 클라이언트와 통신할 수 있는 매개체 입니다.
+            + 플레이어 정보, UI 이동, 강퇴가 가능합니다.
+            + https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/UI_Player.cs
+            + 
 
     + 로딩 씬
       + 모든 플레이어가 게임 씬을 로딩후 동시에 진입하기 위한 씬
