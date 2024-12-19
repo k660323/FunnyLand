@@ -288,35 +288,44 @@
   + 해당 플레이어의 Properties를 수정하여 Photon 함수인 OnPlayerPropertiesUpdate가 호출되었을때 호출된다.
   + 수정된 Properties가 조건에 맞는 key를 포함하면 마스터 클라이언트가 endEvent 델리게이트가 구독한 함수들을 실행하면 된다.
   + OnPlayerPropertiesUpdate는 가상함수이며 게임 조건에 맞게 수정하면 된다.
-  + LastPeopleScene 게임 시작 흐름 예시
-  + Start() -> GameInit() ->  RequestPos_ToM()를 마스터 클라이언트가 호출하도록 RPC -> 마스터 클라이언트가 해당 RPC를 보낸 플레이어의 랜덤으로 자리 지정 -> CheckRequestCount를 호출해 모든 플레이어가 요청 했는지 체크 -> 만족시 봇과 플레이어 생성 -> 게임 시작
+
+### LastPeopleScene 게임 시작 흐름 예시 ###
+1. Start()
+2. GameInit()
+3. RequestPos_ToM()를 마스터 클라이언트가 호출하도록 RPC
+4. 마스터 클라이언트가 해당 RPC를 보낸 플레이어의 랜덤으로 자리 지정
+5. CheckRequestCount를 호출해 모든 플레이어가 요청 했는지 체크
+6. 만족시 봇과 플레이어 생성
+7. 게임 시작
 
 [ContentsScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/Contents/ContentsScene.cs, "컨텐츠 씬")
 
         
-+ LastPeopleScene
+##### **LastPeopleScene**
   + AI사이에 들어간 플레이어들을 찾아 제거하면 되는 심플한 게임입니다.
-  + https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/Contents/LastPeopleScene.cs
+
+[LastPeopleScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/Contents/LastPeopleScene.cs, "최후의 생존자 씬")
+
+**조작**
   + 플레이어와 AI 조작 로직은 FSM으로 구성되어 있습니다.
 
 [LPPlayereController.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Controllers/LastPeople/LPPlayerController.cs, "플레이어 컨트롤러")
 
 
-+ Attack
-  + FSM 상태가 Dead가 아니면 Attack상태로 전환이 가능합니다.
-  + 피격 판정은 마스터 클라이언트에서 처리합니다.
-  + BoxCastAll을 통해 피격된 모든 게임 오브젝트를 순회합니다.
-  + 현재 공격 카운트가 최대 카운트랑 같으면 더 이상 반복문을 순회하지 않습니다.
+**공격**
+1. FSM 상태가 Dead가 아니면 Attack상태로 전환이 가능합니다.
+2. 피격 판정은 마스터 클라이언트에서 처리합니다.
+3. BoxCastAll을 통해 피격된 모든 게임 오브젝트를 순회합니다.
+4. 현재 공격 카운트가 최대 카운트랑 같으면 더 이상 반복문을 순회하지 않습니다.
 
 [MeleeWeapon.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Contents/Weapon/MeleeWeapon.cs, "무기")
 
-
-  + 팀, 추가 효과 확인분 확인하는 OnAttack에서 Stat을 상속받은 클래스에서 소유자가 피격 처리를 하는 OnAttacked함수를 호출 합니다.
+5. 팀, 추가 효과 확인분 확인하는 OnAttack에서 Stat을 상속받은 클래스에서 소유자가 피격 처리를 하는 OnAttacked함수를 호출 합니다.
 
 [Stat.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Contents/Stat.cs, "스텟")
 
    
-+ 자기장
+**자기장**
   + 자기장은 총 5단계의 페이지가 존재하며 최종 페이지에 도달할 때 까지 계속해서 작아 집니다.
   + 게임 시작시 LastPeopleScene 클래스가 게임 시작인 PageStart함수를 호출합니다.
   + NextDestination()함수에서 다음 위치와 크기를 설정합니다.
@@ -327,7 +336,7 @@
 
 [MagneticField.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Contents/MagneticField.cs, "자기장")
          
-+ 레드존
+**레드존**
   + 게임 시작시 매 1분 마다 랜덤한 지역에 포격이 가해집니다.
   + 해당 포격을 맞으면 일격에 쓰러집니다.
   + 레드존 생성기와 레드존으로 이루어져 있습니다.
@@ -337,41 +346,49 @@
 [RedZone.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Contents/RedZone.cs, "레드존")
 
 
-+ LedgeBlocker
+##### **LedgeBlocker**
   + 상단의 게이지가 다 닳을 때 가지 해당 캐릭터 색상이 맞는 버튼을 눌러 점수를 많이 획득하는 미니 게임
   + 모든 플레이어가 탈락하면 게임 종료
     
-+ ShootingShooter
+##### **ShootingShooter**
   + 제한 시간안에 최대한 많은 플레이어를 섬멸
   + 이동, 점프 공격 단순한 조작
   + 사망시 10초 뒤 리스폰
+
+**조작**
   + FSM으로 플레이어 이동 로직 구현
-  
+
 [SSPlayerController.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Controllers/ShootingShooter/SSPlayerController.cs, "플레이어 컨트롤러")
 
-  + 네트워크 오브젝트 ObjectPooling
+**네트워크 오브젝트 ObjectPooling**
   + 모든 객체에 대한 처리가 어려워 자기 자신의 소유의 오브젝트들만 오브젝트 풀리을 부분적 적용
   + 조건을 만족하여 RegisterInsertQueue() 호출시 자신 객체면 오브젝트 풀링 아니면 비활성화
+    
 [Projectile.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Contents/Projectile/Projectile.cs, "투사체")
 
-+ ZombieSurviver
+**ZombieSurviver**
   + 좀비를 피해 최대한 생존하는 미니게임
   + 캐릭터의 좌클릭으로 좀비나 플레이어를 밀어낼 수 있습니다.
   + 최후의 플레이어만 생존하거나 제한 시간안에 버티면 점수를 획득합니다.
-+ FSM
+    
+**조작**
   + 플레이어와 AI조작 로직은 FSM으로 구현
-+ 무기 효과
+    
+**무기 효과**
   + 플레이어의 무기는 공격 시 해당 객체를 뒤로 날려버리는 특수 효과가 있습니다.
   + 플레이어는 CharacterController, AI는 NavMesh Agent를 사용하기에 유니티에서 제공하는 Rigidbody 컴포넌트를 사용할 수 없어 이를 둘다 사용할 수 있게 커스텀
+
 + Weapon
   + PhysicsEffect는 ScriptableObject로 정의되어 있고 특수 효과에 대한 정의가 되어있는 클래스 입니다. ex) 밀치기
 
-[PhysicsEffect.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Contents/Weapon/AdditionEffect/PhysicsEffect.cs
-, 물리 효과")
+[PhysicsEffect.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Contents/Weapon/AdditionEffect/PhysicsEffect.cs, "물리 효과")
 
   + Weapon의 OnAttack()에서 판정시 OnAddtionPhysicse를 호출하여 해당 효과가 있으면 적용
+    
 [Weapon.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Contents/Weapon/Weapon.cs, "무기")
+
   + Controller3D에서 선언되어 있는 SetPhysics에서 매개변수로 온 값을 가지고 효과를 적용시킵니다.
+
 [Controller3D.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Controllers/BaseController/3D/Controller3D.cs, "컨트롤러 3D 월드 전용") 
 
 ---
@@ -398,7 +415,7 @@
 
 ## 5. 구현에 어려웠던 점과 해결과정
 + 3인칭 TPS 게임을 첫 구현이라 플레이어 이동, 3인칭 카메라 구현에 많이 어려웠습니다.
-  + 구글링, 유튜브 등 외부 미디어를 코드를 참고하여 해결했습니다.
+  + 구글링, 유튜브 등 외부 미디어를 참고하여 해결했습니다.
   
 + URP(Universal Rendering PipeLine)을 써서 그래픽 옵션 설정 구현이 까다로웠고, 외부 라이브러리의 랜더링 기능이 추가되지 않아서 발생한 버그를 수정 하는게 많이 어려웠습니다. (바다에 들어갔을때 카메라가 바다에 들어간 부분만 추가 렌더링 하는 기능)
   + 하지만 구글링을 통해서 해당 기능을 랜더링 파이프라인에 추가해야된다것을 알고 바로 적용하여 해결하였습니다.
@@ -410,9 +427,9 @@
   + 여러 게임에서 사용할 클래스를 재사용하기위해 상속 관계를 만들고 또 만들다 보니 코드 분석하기 어려웠고 코드 작성하기가 어려웠습니다.
  
 ## 6. 느낌점
-+ Saas 로 만드는 멀티플레이어 게임의 한계를 느꼈다. 게임 판정을 클라이언트(마스터)가 관리하니까 코드 설계가 너무 어렵다.
-+ 예외적인 마스터가 방을 떠나거나 마스터가 바뀔때 마스터가 가지고 있는 데이터 동기화나 최적화를 위해 마스터만 실행하고 가지고있는 데이터를 다음 마스터가 가지게 하거나, 해당 상태에서 마스터가 나가면 될 에외처리 등등 너무 많은 상황을 처리해야해서 머리가 아프다.
-+ 그래서 데디케이티드 서버나 소켓 프로그래밍을 배워 제작을 하는게 명확하게 프로그래밍이 가능할거라 생각한다. 왜냐하면 클라 <-> 서버의 관계가 명확하기 때문이다.
++ Saas 로 만드는 멀티플레이어 게임의 한계를 느꼈다. 게임 판정을 클라이언트(마스터)가 관리하니 해킹 위험, 또는 나중에 실제 서비스시 많은 유저를 수용할 수 없고, 호스트가 직접 세션을 만들어도 포톤을 이용해야 하기에 비용이 발생한다는 점이 있습니다.
++ 예외적인 마스터가 방을 떠나거나 마스터가 바뀔때 마스터가 가지고 있는 데이터 동기화나 최적화를 위해 마스터만 실행하고 가지고있는 데이터를 다음 마스터가 가지게 하거나, 해당 상태에서 마스터가 나가면 될 예외처리 등등 너무 많은 상황을 처리해야해서 머리가 아프다.
++ 다음에 네트워크 게임을 제작한다면 호스트나 서버가 닫히면 즉시 게임을 종료시키도록 설계해서 이러한 복잡한 문제를 해결하고자 합니다.
 
 
 ## 7. 플레이 영상
