@@ -140,6 +140,7 @@
   + FindCutstomId를 호출하여 결과를 bool형 반환 합니다.
   + 사용가능한 이메일이면 CustomSignUp을 호출해 iD,PW를 설정합니다.
   + 계정 생성이 완료되면 국가등록, 이메일 등록, 성공 알림 함수를 호출합니다.
+    
 [UI_Register.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/UI_Register.cs,"등록 UI")
 
 
@@ -147,6 +148,7 @@
 + UI_Login
   + 로그인 버튼 클릭시 LoginBtnClick() 함수를 통해 BackEnd에 해당 정보 전송 후 결과 반환
   + 올바른 정보면 해당 플레이어의 Json 데이터를 가져와 초기화
+    
 [UI_Login.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/UI_Login.cs, "로그인 UI")
 
 
@@ -154,6 +156,7 @@
 + UI_FindAccount
   + FindID - 계정 등록시 작성한 email로 ID를 메일로 발송
   + ResetPW - 계정 등록시 작성한 email, ID를 확인후 메일로 랜덤한 PW 발송
+    
 [UI_FindAccount.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_FindAccount.cs,"계정 찾기 UI")
 
 
@@ -163,11 +166,13 @@
 + LobbyScene
   + 해당 씬만의 기능 수행 및 특정 오브젝트 관리
   + 포톤 네트워크 로비에 입장 초기화 기능 수행
+    
 [LobbyScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/LobbyScene.cs, "로그인 씬")
             
 + UI_LobbyScene
   + OnRoomListUpdate함수가 일정 주기 마다 콜백함수로 생성된 방 리스트 불러온다.
   + 해당 씬에선 방생성, 방입장, 내정보, 상점, 옵션 설정이 가능합니다.
+    
 [UI_LobbyScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/SceneUI/UI_LobbyScene.cs, "UI 로비 씬")
             
 + UI_FindRoom (방 찾기 및 입장)
@@ -175,11 +180,13 @@
   + 콜백으로 호출된 OnRoomListUpdate가 해당 클래스가 활성화 되어 있다면 SetRoomInfo() 호출
   + 입장하려고하는 방의 인덱스로 리스트 배열의 방 정보를 가져와 해당 정보가 존재하고 만약 패스워드가 존재시 패스 워드 까지 입력받습니다.
   + 방 최대 인원에 초과하는지 확인하고 조건을 충족시 PhotonNetwork.JoinRoom()을 호출하여 방에 입장합니다.
+    
 [UI_FindRoom.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_FindRoom.cs, "UI 방 찾기")
             
 + UI_RoomPW (방 입장 비밀번호)
   + UI_FindRoom에서 시각화된 정보들중 만약 비밀번호를 설정 해놓으면 뜨는 팝업 UI
   + 설정된 암호를 기입해야 방에 입장할 수 있다.
+    
 [UI_RoomPW.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_RoomPW.cs, "방 비밀번호 입력")
               
 + UI_CreateRoom (방 생성)
@@ -187,8 +194,11 @@
   + 방제목, 비밀번호, 인원수, 라운드, 팀전, 팀킬, 공개방 여부를 설정 하여 방을 생성할 수 있습니다.
   + 설정한 정보들은 CreateRoom를 호출할 시 매개변수로 넣어주고, 외부에 보일 방 정보도 아래와 같이 세팅해서 생성합니다.
   + Managers.Photon.InitRoomProperties 함수는 사용자 지정 함수이며 RoomOption 객체를 생성해 로비에 보일 값을 설정하여 RoomOption을 반환하여 CreateRoom매개변수에 들어갑니다.
+    
   [PhotonNetworkManager.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Managers/Core/PhotonNetworkManager.cs,"포톤 전용 매니저 함수")
+
 [UI_CreateRoom.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_CreateRoom.cs, "방 생성 UI")
+
        
 + UI_Room (방)
   + 방 설정, 유저 슬롯 설정, 채팅, 게임 준비 시작할 수 있는 UI입니다.
@@ -216,6 +226,7 @@
   + 방에 입장한 플레이어 UI 입니다.
   + 해당 방에서 마스터 클라이언트와 클라이언트와 통신할 수 있는 매개체 입니다.
   + 플레이어 정보, UI 이동, 강퇴가 가능합니다.
+    
 [UI_Player.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/UI_Player.cs,"방 플레이어 UI")
 
 
