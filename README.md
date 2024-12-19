@@ -411,8 +411,13 @@
   + ApplyWeather함수를 RPC해서 모든 클라이언트의 환경과을 동일하게 맞춰줍니다.
     
 [EnviromentController.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Contents/EnviromentController.cs, "환경 컨트롤러")
+
+
    
-    
+---
+
+
+
 <br>
 
 ## 5. 구현에 어려웠던 점과 해결과정
