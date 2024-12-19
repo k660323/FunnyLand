@@ -136,7 +136,7 @@
 + UI_Register
   + 회원가입 버튼 클릭시 CreateAccount()함수를 통해 사용자가 입력한 e-mail, ID, PW 기반으로 BackEnd에 사용자를 등록한다.
 
-  **과정**
+**과정**
   + FindCutstomId를 호출하여 결과를 bool형 반환 합니다.
   + 사용가능한 이메일이면 CustomSignUp을 호출해 iD,PW를 설정합니다.
   + 계정 생성이 완료되면 국가등록, 이메일 등록, 성공 알림 함수를 호출합니다.
@@ -213,11 +213,11 @@
   + GameStart()
     + 마스터 클라이언트가 Ready시 호출, 팀전일 경우 선행 조건으로 팀 인원수 체크, Ready여부 체크하여 모든 플레이어가 Ready시 GameSceneLoad()함수를 RPC하여 모두 에게 알려 씬을 로드한다.
     
-    **방플레이어 이동**
-    + 마스터 클라이언트가 처리
-    + 마우스 클릭시 oNpOINTERdOWN()호출 대상 ui를 클릭하면 ui가 다른 ui에 가리지 않도록 SetAsLastSibling()호출
-    + 마우스 클릭 중 OnPointerDrag() 호출 해당 UI가 마우스 포인터를 따라 움직인다.
-    + 마우스 클릭을 땠을 때 OnPointerUp()호출 PointerUppOS()를 통해 Raycast를 한 후 리스트 중 UI_TeamRange를 가진 컴포넌트랑 충돌 했을 시 해당 UI를 MoveTeam()함수를 통해 이동 시킨다. 
+**방플레이어 이동**
+  + 마스터 클라이언트가 처리
+  + 마우스 클릭시 oNpOINTERdOWN()호출 대상 ui를 클릭하면 ui가 다른 ui에 가리지 않도록 SetAsLastSibling()호출
+  + 마우스 클릭 중 OnPointerDrag() 호출 해당 UI가 마우스 포인터를 따라 움직인다.
+  + 마우스 클릭을 땠을 때 OnPointerUp()호출 PointerUppOS()를 통해 Raycast를 한 후 리스트 중 UI_TeamRange를 가진 컴포넌트랑 충돌 했을 시 해당 UI를 MoveTeam()함수를 통해 이동 시킨다. 
 
 [UI_Room.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/SceneUI/UI_Room.cs, "방")
 
@@ -233,29 +233,33 @@
 ---
 
 #### **로딩 씬**
-      + 모든 플레이어가 게임 씬을 로딩후 동시에 진입하기 위한 씬
-      + Init() ->  Managers.Scene.AsyncLoadScene(Define.Scene.Game) 해당 씬 비동기 로드
-      + StartCoroutine(CorLoadingProgress); 비동기 로드 정보를 관찰하여 UI_LoadingScene에 알려 UI 업데이트하기 위해 코루틴 실행
-      + 씬 로딩이 완료되면 PhotonNetwork.LocalPlayer.SetCustomProperties로 해당 상태 갱신
-      + 만약 마스터 클라이언트면 CheckReadyPlayer() 코루틴을 실행해 모든 유저 씬 로드 체크
-      + 모든 유저가 씬 로드가 완료되면 SceneActivation()를 RPC하여 모든 클라이언트에게 알려 게임씬에 진입한다.
-    + https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/LoadingScene.cs
++ LoadingScene.cs
+  + 모든 플레이어가 게임 씬을 로딩후 동시에 진입하기 위한 씬
+  + Init() ->  Managers.Scene.AsyncLoadScene(Define.Scene.Game) 해당 씬 비동기 로드
+  + StartCoroutine(CorLoadingProgress); 비동기 로드 정보를 관찰하여 UI_LoadingScene에 알려 UI 업데이트하기 위해 코루틴 실행
+  + 씬 로딩이 완료되면 PhotonNetwork.LocalPlayer.SetCustomProperties로 해당 상태 갱신
+  + 만약 마스터 클라이언트면 CheckReadyPlayer() 코루틴을 실행해 모든 유저 씬 로드 체크
+  + 모든 유저가 씬 로드가 완료되면 SceneActivation()를 RPC하여 모든 클라이언트에게 알려 게임씬에 진입한다.
+[LoadingScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/LoadingScene.cs, "로딩 씬")
 
-    + 게임 씬
-      + 게임씬에는 진행할 게임 컨텐츠를 지정하는 씬 입니다.
-      + 여러 컨텐츠 씬에서 사용하는 기능들은 게임 씬에서 구현합니다.
-      + 방장이 60초 동안 원하는 미니 게임을 선택해 플레이 하면 됩니다.
-      + 최대 라운드는 게임 시작전 설정한 라운드를 따라가며 모든 라운드가 끝나면 개인전, 팀전에 따라 점수가 높은 유저 또는 팀이 승리합니다.
-      + 컨텐츠 흐름은 FSM형식으로 구현된 StateController()함수를 통해 게임 상태를 제어 합니다.
-        + UI_Chocie(맵선택) -> UI_LoadMap(맵 로드) -> ContentsScene을 상속받은 클래스가 게임 시작 및 게임 종료 -> UI_RoundResult(점수 출력) -> 라운드 체크 -> 만족시 UI_GameOver, 아닐시 처음부터 반복
-          + https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_ChoiceMap.cs
-          + https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_LoadMap.cs
-          + https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/Contents/ContentsScene.cs
-          + https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_RoundResult.cs
-          + https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_GameOver.cs
-    + https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/GameScene.cs
-          
-    + 컨텐츠 씬
+#### **게임 씬**
++ GameScene.cs
+  + 게임씬에는 진행할 게임 컨텐츠를 지정하는 씬 입니다.
+  + 여러 컨텐츠 씬에서 사용하는 기능들은 게임 씬에서 구현합니다.
+  + 방장이 60초 동안 원하는 미니 게임을 선택해 플레이 하면 됩니다.
+  + 최대 라운드는 게임 시작전 설정한 라운드를 따라가며 모든 라운드가 끝나면 개인전, 팀전에 따라 점수가 높은 유저 또는 팀이 승리합니다.
+  + 컨텐츠 흐름은 FSM형식으로 구현된 StateController()함수를 통해 게임 상태를 제어 합니다.
+[GameScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/GameScene.cs, "게임 씬")
+
+**게임 흐름**
+  1. UI_Chocie(맵선택) - [ChoiceMape.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_ChoiceMap.cs, "맵 선택")
+  2. UI_LoadMap(맵 로드) - [UI_LoadMap.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_LoadMap.cs, "UI 맵 로드")
+  3. 해당 씬에 ContentsScene을 상속받은 클래스가 게임 시작 및 게임 종료 - [ContentsScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/Contents/ContentsScene.cs, "컨텐츠 씬")
+  4. UI_RoundResult(점수 출력) - [UI_RoundResult.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_RoundResult.cs, "UI 게임 결과")
+  5. 라운드 체크
+  6. 모든 라운드 수행시 게임종료 아닐시 1번부터 수행 - [UI_GameOver.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_GameOver.cs, "UI 게임 종료")
+     
+#### **컨텐츠 씬**
       + ContentsScene
         + 해당 컨텐츠 씬들은 위의 클래스를 상속받습니다.
         + 이 씬은 게임 시작, 종료 조건 설정, 종료 조건 보상, 게임 종료 등 다양한 게임 로직 흐름 제어를 수행합니다.
