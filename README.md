@@ -390,6 +390,7 @@
 ## 환경광 동기화 ##
   + 마스터 클라이언트가 Start함수를 실행시 enviroments 배열 중에서 랜덤으로 선택
   + ApplyWeather함수를 RPC해서 모든 클라이언트의 환경과을 동일하게 맞춰줍니다.
+    
 [EnviromentController.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Contents/EnviromentController.cs, "환경 컨트롤러")
    
     
