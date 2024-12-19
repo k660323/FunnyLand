@@ -115,7 +115,7 @@
   + Json파일로 데이터를 저장 및 불러옵니다.
   + UI_Preferences클래스에서 UI로 환경 설정하면 값이 반영됩니다.
          
-[Managers.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Managers/Managers.cs,"매니저 코드")
+[Managers.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Managers/Managers.cs, "매니저 코드")
 
 
 ---
@@ -141,7 +141,7 @@
   + 사용가능한 이메일이면 CustomSignUp을 호출해 iD,PW를 설정합니다.
   + 계정 생성이 완료되면 국가등록, 이메일 등록, 성공 알림 함수를 호출합니다.
     
-[UI_Register.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/UI_Register.cs,"등록 UI")
+[UI_Register.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/UI_Register.cs, "등록 UI")
 
 
 ##### **로그인**
@@ -157,7 +157,7 @@
   + FindID - 계정 등록시 작성한 email로 ID를 메일로 발송
   + ResetPW - 계정 등록시 작성한 email, ID를 확인후 메일로 랜덤한 PW 발송
     
-[UI_FindAccount.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_FindAccount.cs,"계정 찾기 UI")
+[UI_FindAccount.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_FindAccount.cs, "계정 찾기 UI")
 
 
 ---
@@ -195,7 +195,7 @@
   + 설정한 정보들은 CreateRoom를 호출할 시 매개변수로 넣어주고, 외부에 보일 방 정보도 아래와 같이 세팅해서 생성합니다.
   + Managers.Photon.InitRoomProperties 함수는 사용자 지정 함수이며 RoomOption 객체를 생성해 로비에 보일 값을 설정하여 RoomOption을 반환하여 CreateRoom매개변수에 들어갑니다.
     
-  [PhotonNetworkManager.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Managers/Core/PhotonNetworkManager.cs,"포톤 전용 매니저 함수")
+  [PhotonNetworkManager.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Managers/Core/PhotonNetworkManager.cs, "포톤 전용 매니저 함수")
 
 [UI_CreateRoom.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_CreateRoom.cs, "방 생성 UI")
 
@@ -227,7 +227,7 @@
   + 해당 방에서 마스터 클라이언트와 클라이언트와 통신할 수 있는 매개체 입니다.
   + 플레이어 정보, UI 이동, 강퇴가 가능합니다.
     
-[UI_Player.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/UI_Player.cs,"방 플레이어 UI")
+[UI_Player.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/UI_Player.cs, "방 플레이어 UI")
 
 
 ---
