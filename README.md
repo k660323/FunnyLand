@@ -118,7 +118,9 @@
 [Managers.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Managers/Managers.cs, "매니저 코드")
 
 
+
 ---
+
 
      
 ### **씬**
@@ -160,7 +162,10 @@
 [UI_FindAccount.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_FindAccount.cs, "계정 찾기 UI")
 
 
+
 ---
+
+
 
 #### **로비 씬**
 + LobbyScene
@@ -230,7 +235,10 @@
 [UI_Player.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/UI_Player.cs, "방 플레이어 UI")
 
 
+
 ---
+
+
 
 #### **로딩 씬**
 + LoadingScene
@@ -241,6 +249,12 @@
   + 만약 마스터 클라이언트면 CheckReadyPlayer() 코루틴을 실행해 모든 유저 씬 로드 체크
   + 모든 유저가 씬 로드가 완료되면 SceneActivation()를 RPC하여 모든 클라이언트에게 알려 게임씬에 진입한다.
 [LoadingScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/LoadingScene.cs, "로딩 씬")
+
+
+
+---
+
+
 
 #### **게임 씬**
 + GameScene
@@ -258,7 +272,13 @@
   4. UI_RoundResult(점수 출력) - [UI_RoundResult.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_RoundResult.cs, "UI 게임 결과")
   5. 라운드 체크 - [ContentsScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/Contents/ContentsScene.cs, "컨텐츠 씬")
   6. 모든 라운드 수행시 게임종료 아닐시 1번부터 수행 - [UI_GameOver.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_GameOver.cs, "UI 게임 종료")
-     
+
+
+
+---
+
+
+
 #### **컨텐츠 씬**
 + ContentsScene
   + 해당 컨텐츠 씬들은 위의 클래스를 상속받습니다.
