@@ -291,7 +291,9 @@
   + 수정된 Properties가 조건에 맞는 key를 포함하면 마스터 클라이언트가 endEvent 델리게이트가 구독한 함수들을 실행하면 된다.
   + OnPlayerPropertiesUpdate는 가상함수이며 게임 조건에 맞게 수정하면 된다.
 
-### LastPeopleScene 게임 시작 흐름 예시 ###
+<br>
+
+##### LastPeopleScene 게임 시작 흐름 예시
 1. Start()
 2. GameInit()
 3. RequestPos_ToM()를 마스터 클라이언트가 호출하도록 RPC
@@ -302,17 +304,21 @@
 
 [ContentsScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/Contents/ContentsScene.cs)
 
-        
-##### **LastPeopleScene**
+<br>
+
+#### **LastPeopleScene**
   + AI사이에 들어간 플레이어들을 찾아 제거하면 되는 심플한 게임입니다.
 
 [LastPeopleScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/Contents/LastPeopleScene.cs)
+
+<br>
 
 **조작**
   + 플레이어와 AI 조작 로직은 FSM으로 구성되어 있습니다.
 
 [LPPlayereController.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Controllers/LastPeople/LPPlayerController.cs)
 
+<br>
 
 **공격**
 1. FSM 상태가 Dead가 아니면 Attack상태로 전환이 가능합니다.
@@ -326,6 +332,7 @@
 
 [Stat.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Contents/Stat.cs)
 
+<br>
    
 **자기장**
   + 자기장은 총 5단계의 페이지가 존재하며 최종 페이지에 도달할 때 까지 계속해서 작아 집니다.
@@ -337,6 +344,8 @@
   + 이동이 끝나면 타이머를 작동시키며 타이머가 끝나면 위의 루틴을 반복합니다.
 
 [MagneticField.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Contents/MagneticField.cs)
+
+<br>
          
 **레드존**
   + 게임 시작시 매 1분 마다 랜덤한 지역에 포격이 가해집니다.
@@ -347,12 +356,15 @@
 
 [RedZone.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Contents/RedZone.cs)
 
+<br>
 
-##### **LedgeBlocker**
+#### **LedgeBlocker**
   + 상단의 게이지가 다 닳을 때 가지 해당 캐릭터 색상이 맞는 버튼을 눌러 점수를 많이 획득하는 미니 게임
   + 모든 플레이어가 탈락하면 게임 종료
+
+<br>
     
-##### **ShootingShooter**
+#### **ShootingShooter**
   + 제한 시간안에 최대한 많은 플레이어를 섬멸
   + 이동, 점프 공격 단순한 조작
   + 사망시 10초 뒤 리스폰
@@ -368,7 +380,9 @@
     
 [Projectile.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Contents/Projectile/Projectile.cs)
 
-**ZombieSurviver**
+<br>
+
+#### **ZombieSurviver**
   + 좀비를 피해 최대한 생존하는 미니게임
   + 캐릭터의 좌클릭으로 좀비나 플레이어를 밀어낼 수 있습니다.
   + 최후의 플레이어만 생존하거나 제한 시간안에 버티면 점수를 획득합니다.
