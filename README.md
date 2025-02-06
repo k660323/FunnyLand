@@ -89,7 +89,7 @@
 
 대부분 유니티 프로젝트에서 사용되고 자주 사용하는 기능들을 구현하여 싱글톤 클래스인 Managers에서 접근할 수 있도록 구현
       
-#### **코어 매니저**
+### **코어 매니저**
 
 + DataManager - 데이터 관리 매니저
 + InputManager - 사용자 입력 관리 매니저
@@ -102,7 +102,7 @@
 + UIManager - UI 매니저
 
         
-#### **컨텐츠 매니저**
+### **컨텐츠 매니저**
 
 + GameManager
   + 네트워크에 존재하는 게임 오브젝트를 서치, 씬 정보, 소유 플레이어, 관전 등 각종 유틸 클래스
@@ -127,14 +127,16 @@
 
 전체적인 씬은 로그인, 로비, 게임 선택, 게임 씬으로 나눠서 구현
    
-#### **로그인 씬**
+### **로그인 씬**
 + LoginScene
   + 해당 씬만의 기능 수행 및 특정 오브젝트 관리
     
 + UI_LoingScene
   + 각각 구현한 기능 관리 및 해당 기능들 끼리 쉽게 참조할 수 있도록 하는 클래스
 
-##### **회원 가입**
+<br>
+
+#### **회원 가입**
 + UI_Register
   + 회원가입 버튼 클릭시 CreateAccount()함수를 통해 사용자가 입력한 e-mail, ID, PW 기반으로 BackEnd에 사용자를 등록한다.
 
@@ -145,8 +147,9 @@
     
 [UI_Register.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/UI_Register.cs)
 
+<br>
 
-##### **로그인**
+#### **로그인**
 + UI_Login
   + 로그인 버튼 클릭시 LoginBtnClick() 함수를 통해 BackEnd에 해당 정보 전송 후 결과 반환
   + 올바른 정보면 해당 플레이어의 Json 데이터를 가져와 초기화
@@ -154,7 +157,7 @@
 [UI_Login.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/UI_Login.cs)
 
 
-##### **ID, PW 찾기**
+#### **ID, PW 찾기**
 + UI_FindAccount
   + FindID - 계정 등록시 작성한 email로 ID를 메일로 발송
   + ResetPW - 계정 등록시 작성한 email, ID를 확인후 메일로 랜덤한 PW 발송
@@ -167,19 +170,23 @@
 
 <br>
 
-#### **로비 씬**
+### **로비 씬**
 + LobbyScene
   + 해당 씬만의 기능 수행 및 특정 오브젝트 관리
   + 포톤 네트워크 로비에 입장 초기화 기능 수행
     
 [LobbyScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/LobbyScene.cs)
-            
+
+<br>
+
 + UI_LobbyScene
   + OnRoomListUpdate함수가 일정 주기 마다 콜백함수로 생성된 방 리스트 불러온다.
   + 해당 씬에선 방생성, 방입장, 내정보, 상점, 옵션 설정이 가능합니다.
     
 [UI_LobbyScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/SceneUI/UI_LobbyScene.cs)
-            
+
+<br>
+
 + UI_FindRoom (방 찾기 및 입장)
   + OnRoomListUpdate 함수에 들어온 방 정보들을 UI에 띄어주는 클래스
   + 콜백으로 호출된 OnRoomListUpdate가 해당 클래스가 활성화 되어 있다면 SetRoomInfo() 호출
@@ -187,13 +194,17 @@
   + 방 최대 인원에 초과하는지 확인하고 조건을 충족시 PhotonNetwork.JoinRoom()을 호출하여 방에 입장합니다.
     
 [UI_FindRoom.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_FindRoom.cs)
-            
+
+<br>
+
 + UI_RoomPW (방 입장 비밀번호)
   + UI_FindRoom에서 시각화된 정보들중 만약 비밀번호를 설정 해놓으면 뜨는 팝업 UI
   + 설정된 암호를 기입해야 방에 입장할 수 있다.
     
 [UI_RoomPW.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_RoomPW.cs)
-              
+
+<br>
+
 + UI_CreateRoom (방 생성)
   + 방 생성 버튼을 통해 해당 PopUp클래스인 UI_CreateRoom 생성
   + 방제목, 비밀번호, 인원수, 라운드, 팀전, 팀킬, 공개방 여부를 설정 하여 방을 생성할 수 있습니다.
@@ -204,7 +215,8 @@
 
 [UI_CreateRoom.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_CreateRoom.cs)
 
-       
+<br>
+
 + UI_Room (방)
   + 방 설정, 유저 슬롯 설정, 채팅, 게임 준비 시작할 수 있는 UI입니다.
   + RequestUIPos(Player requestPlayer)
@@ -226,6 +238,7 @@
 
 [UI_Room.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/SceneUI/UI_Room.cs)
 
+<br>
 
 + UI_Player
   + 방에 입장한 플레이어 UI 입니다.
@@ -240,7 +253,7 @@
 
 <br>
 
-#### **로딩 씬**
+### **로딩 씬**
 + LoadingScene
   + 모든 플레이어가 게임 씬을 로딩후 동시에 진입하기 위한 씬
   + Init() ->  Managers.Scene.AsyncLoadScene(Define.Scene.Game) 해당 씬 비동기 로드
@@ -257,7 +270,7 @@
 
 <br>
 
-#### **게임 씬**
+### **게임 씬**
 + GameScene
   + 게임씬에는 진행할 게임 컨텐츠를 지정하는 씬 입니다.
   + 여러 컨텐츠 씬에서 사용하는 기능들은 게임 씬에서 구현합니다.
@@ -266,6 +279,8 @@
   + 컨텐츠 흐름은 FSM형식으로 구현된 StateController()함수를 통해 게임 상태를 제어 합니다.
     
 [GameScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/GameScene.cs)
+
+<br>
 
 **게임 흐름**
   1. UI_Chocie(맵선택) - [ChoiceMape.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Popup/UI_ChoiceMap.cs)
@@ -281,15 +296,17 @@
 
 <br>
 
-#### **컨텐츠 씬**
-+ ContentsScene
-  + 해당 컨텐츠 씬들은 위의 클래스를 상속받습니다.
-  + 이 씬은 게임 시작, 종료 조건 설정, 종료 조건 보상, 게임 종료 등 다양한 게임 로직 흐름 제어를 수행합니다.
-  + GameInit()는 게임 초기화및 시작을 담당하며 상속받은 클래스에서 이 함수를 override하여 각 컨텐츠에 맞게 흐름을 정의합니다.
-  + GameEnd_M 함수는 게임이 종료 체크 및 종료를 수행합니다.
-  + 해당 플레이어의 Properties를 수정하여 Photon 함수인 OnPlayerPropertiesUpdate가 호출되었을때 호출된다.
-  + 수정된 Properties가 조건에 맞는 key를 포함하면 마스터 클라이언트가 endEvent 델리게이트가 구독한 함수들을 실행하면 된다.
-  + OnPlayerPropertiesUpdate는 가상함수이며 게임 조건에 맞게 수정하면 된다.
+### **컨텐츠 씬**
+ContentsScene
++ 해당 컨텐츠 씬들은 위의 클래스를 상속받습니다.
++ 이 씬은 게임 시작, 종료 조건 설정, 종료 조건 보상, 게임 종료 등 다양한 게임 로직 흐름 제어를 수행합니다.
++ GameInit()는 게임 초기화및 시작을 담당하며 상속받은 클래스에서 이 함수를 override하여 각 컨텐츠에 맞게 흐름을 정의합니다.
++ GameEnd_M 함수는 게임이 종료 체크 및 종료를 수행합니다.
++ 해당 플레이어의 Properties를 수정하여 Photon 함수인 OnPlayerPropertiesUpdate가 호출되었을때 호출된다.
++ 수정된 Properties가 조건에 맞는 key를 포함하면 마스터 클라이언트가 endEvent 델리게이트가 구독한 함수들을 실행하면 된다.
++ OnPlayerPropertiesUpdate는 가상함수이며 게임 조건에 맞게 수정하면 된다.
+
+[ContentsScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/Contents/ContentsScene.cs)
 
 <br>
 
@@ -302,11 +319,12 @@
 6. 만족시 봇과 플레이어 생성
 7. 게임 시작
 
-[ContentsScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/Contents/ContentsScene.cs)
 
 <br>
 
-#### **LastPeopleScene**
+---
+
+### **LastPeopleScene**
   + AI사이에 들어간 플레이어들을 찾아 제거하면 되는 심플한 게임입니다.
 
 [LastPeopleScene.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Scenes/Contents/LastPeopleScene.cs)
@@ -358,13 +376,18 @@
 
 <br>
 
-#### **LedgeBlocker**
+---
+
+
+### **LedgeBlocker**
   + 상단의 게이지가 다 닳을 때 가지 해당 캐릭터 색상이 맞는 버튼을 눌러 점수를 많이 획득하는 미니 게임
   + 모든 플레이어가 탈락하면 게임 종료
 
 <br>
-    
-#### **ShootingShooter**
+
+---
+
+### **ShootingShooter**
   + 제한 시간안에 최대한 많은 플레이어를 섬멸
   + 이동, 점프 공격 단순한 조작
   + 사망시 10초 뒤 리스폰
@@ -382,7 +405,9 @@
 
 <br>
 
-#### **ZombieSurviver**
+---
+
+### **ZombieSurviver**
   + 좀비를 피해 최대한 생존하는 미니게임
   + 캐릭터의 좌클릭으로 좀비나 플레이어를 밀어낼 수 있습니다.
   + 최후의 플레이어만 생존하거나 제한 시간안에 버티면 점수를 획득합니다.
@@ -413,7 +438,7 @@
 
 <br>
 
-#### **기타**
+### **기타**
 + UI_Chat
   + 룸 오브젝트
   + InputField에 보낼 텍스트를 입력 후 전송시, 포멧으로 플레이어 닉네임 삽입 후 포톤 서버에 전송하여 서버에서 모든 클라이언트에게 데이터 전송한다.
@@ -427,7 +452,7 @@
 
 [EnviromentController.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Contents/EnviromentController.cs)
 
-### 환경광 동기화 ###
+### 환경광 동기화
   + 마스터 클라이언트가 Start함수를 실행시 enviroments 배열 중에서 랜덤으로 선택
   + ApplyWeather함수를 RPC해서 모든 클라이언트의 환경광을 동일하게 맞춰줍니다.
 
