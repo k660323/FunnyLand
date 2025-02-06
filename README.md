@@ -405,15 +405,17 @@
   + InputField에 보낼 텍스트를 입력 후 전송시, 포멧으로 플레이어 닉네임 삽입 후 포톤 서버에 전송하여 서버에서 모든 클라이언트에게 데이터 전송한다.
     
 [UI_Chat.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/UI/Scene/UI_Chat.cs)
+
+<br>
      
 + EnviromentController
   + 3D 게임의 경험을 다양하게 하기 위한 일종의 환경광 프리셋 클래스
 
-## 환경광 동기화 ##
-  + 마스터 클라이언트가 Start함수를 실행시 enviroments 배열 중에서 랜덤으로 선택
-  + ApplyWeather함수를 RPC해서 모든 클라이언트의 환경과을 동일하게 맞춰줍니다.
-    
 [EnviromentController.cs](https://github.com/k660323/FunnyLand/blob/main/Scripts/Contents/EnviromentController.cs)
+
+### 환경광 동기화 ###
+  + 마스터 클라이언트가 Start함수를 실행시 enviroments 배열 중에서 랜덤으로 선택
+  + ApplyWeather함수를 RPC해서 모든 클라이언트의 환경광을 동일하게 맞춰줍니다.
 
 <br>
 
