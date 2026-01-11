@@ -485,4 +485,4 @@ ContentsScene
 + https://youtu.be/By2hg5X7PqI
 
 ## 8. PDF
-+ https://github.com/k660323/FunnyLand/blob/main/PDF/FunnyLand.pdf
++ https://github.com/k660323/FunnyLand/blob/main/PDF/Funny%20land.pdf
